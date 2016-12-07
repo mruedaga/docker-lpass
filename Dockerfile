@@ -4,26 +4,28 @@ RUN set -x         && \
     apt-get update && \
     apt-get clean
 
+ENV VER 0f9e3d9
+
 RUN set -x                                                             && \
     apt-get install -y openssl libcurl4-openssl-dev libxml2 libssl-dev    \
-                       libxml2-dev pinentry-curses curl make unzip     && \
+                       libxml2-dev pinentry-curses curl make unzip        \
+											 build-essential git AsciiDoc cmake man          && \
+		git clone https://github.com/lastpass/lastpass-cli.git             && \
+		cd lastpass-cli                                                    && \
+		git checkout ${VER}                                                && \
+		cmake . && make && make install && make install-doc                && \
+    cd / && rm -rf /lastpass-cli                                       && \
+    apt-get purge --auto-remove -y                                        \
+			libcurl4-openssl-dev libssl-dev libxml2-dev unzip                   \
+			build-essential git AsciiDoc cmake                               && \
     apt-get clean
 
-RUN apt-get install -y gettext-base gawk
-
-ENV VER 1.0.0
-
-RUN set -x                                                                && \
-    curl -OL https://github.com/lastpass/lastpass-cli/archive/v${VER}.zip && \
-    echo 2f68a6835eecea738cd6a141881c9f8f v${VER}.zip | md5sum -c -       && \
-    unzip v${VER}.zip && rm v${VER}.zip                                   && \
-    cd lastpass-cli-${VER}                                                && \
-    make && make install                                                  && \
-    cd / && rm -rf /lastpass-cli-${VER}
+RUN apt-get install -y gettext-base gawk && \
+    apt-get clean
 
 ADD bin/bash-askpass /usr/local/bin/bash-askpass
 ADD bin/quiet-askpass /usr/local/bin/quiet-askpass
 
 VOLUME /root/.lpass
 
-ENTRYPOINT ["/usr/bin/lpass"]
+ENTRYPOINT ["/usr/local/bin/lpass"]
