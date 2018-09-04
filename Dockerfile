@@ -11,7 +11,7 @@ RUN set -x                                                             && \
 
 RUN apt-get install -y gettext-base gawk
 
-ENV VER 1.0.0
+ENV VER 1.3.1
 
 RUN set -x                                                                && \
     curl -OL https://github.com/lastpass/lastpass-cli/archive/v${VER}.zip && \
