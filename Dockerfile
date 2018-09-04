@@ -6,7 +6,7 @@ RUN set -x         && \
 
 RUN set -x                                                             && \
     apt-get install -y openssl libcurl4-openssl-dev libxml2 libssl-dev    \
-                       libxml2-dev pinentry-curses curl make unzip     && \
+                       libxml2-dev pinentry-curses curl make unzip  cmake  build-essential   && \
     apt-get clean
 
 RUN apt-get install -y gettext-base gawk
