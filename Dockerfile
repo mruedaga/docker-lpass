@@ -15,7 +15,7 @@ ENV VER 1.3.1
 
 RUN set -x                                                                && \
     curl -OL https://github.com/lastpass/lastpass-cli/archive/v${VER}.zip && \
-    echo 2f68a6835eecea738cd6a141881c9f8f v${VER}.zip | md5sum -c -       && \
+    echo e36d14395e70f37bb12e01c09dae196a v${VER}.zip | md5sum -c -       && \
     unzip v${VER}.zip && rm v${VER}.zip                                   && \
     cd lastpass-cli-${VER}                                                && \
     make && make install                                                  && \
